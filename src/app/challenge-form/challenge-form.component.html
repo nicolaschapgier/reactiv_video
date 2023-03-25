@@ -1,0 +1,59 @@
+<form
+  (ngSubmit)="searchForm.valid && onSubmit()"
+  [formGroup]="searchForm"
+  #myForm="ngForm"
+>
+  <p>Est-ce que le formulaire est valide ? {{ searchForm.valid }}</p>
+
+  <div formGroupName="titleAndIdentifiantControl">
+    <fieldset>
+      <label for="title">Title</label>
+      <input type="text" id="tiel" formControlName="title" />
+    </fieldset>
+    <fieldset>
+      <label for="identifiant">Identifiant</label>
+      <input type="text" id="identifiant" formControlName="identifiant" />
+    </fieldset>
+    <div
+      *ngIf="
+        myForm.submitted &&
+        searchForm.controls.titleAndIdentifiantControl.errors
+      "
+    >
+      <span
+        *ngIf="searchForm.controls.titleAndIdentifiantControl.errors?.['isRequired']"
+        >Au moins 1 des 2 !
+      </span>
+    </div>
+  </div>
+
+  <fieldset>
+    <label for="releaseDate">Date de sortie </label>
+    <input type="number" id="releaseDate" formControlName="releaseDate" />
+    <div *ngIf="myForm.submitted && searchForm.controls.releaseDate.errors">
+      <span *ngIf="searchForm.controls.releaseDate.errors?.['min']">
+        Attention l'année doit être comprise entre
+        {{ searchForm.controls.releaseDate.errors["min"].minYear }} et
+        {{ searchForm.controls.releaseDate.errors["min"].maxYear }}
+      </span>
+    </div>
+  </fieldset>
+
+  <label for="type">Choisir un type</label>
+  <select name="type" id="type" formControlName="type">
+    <option value="film">Film</option>
+    <option value="serie">Série</option>
+    <option value="episode">Episode</option>
+  </select>
+
+
+  <label for="fiche">Choisir un fiche</label>
+  <select name="fiche" id="fiche" formControlName="fiche">
+    <option value="courte">Courte</option>
+    <option value="complete">Complète</option>
+  </select>
+
+  <input type="submit" value="Valider le formulaire" />
+
+</form>
+<button (click)="coucou()">Clicker pour afficher la liste "courte" car je l'ai pas mis dans le ngOnInit() eheh !!</button>
